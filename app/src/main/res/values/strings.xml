@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SimpliChef</string>
+    <string name="title_activity_categorie">CategorieActivity</string>
 </resources>
