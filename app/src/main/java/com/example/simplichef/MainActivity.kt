@@ -68,7 +68,8 @@ fun GreetingText(message: String, modifier: Modifier = Modifier) {
 fun StartingButton(textButton: String, modifier: Modifier = Modifier) {
     Button(
         onClick = {
-
+            /*val context = LocalContext.current
+            context.startActivity(Intent(context, CategorieActivity::class.java))*/
         },
         modifier = modifier
             .padding(16.dp)

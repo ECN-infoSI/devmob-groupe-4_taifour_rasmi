@@ -5,22 +5,38 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -37,7 +53,7 @@ class CategorieActivity : ComponentActivity() {
         setContent {
             SimpliChefTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Header(
+                    SimpliChefHeader(
                         name = "SimpliChef",
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -47,11 +63,71 @@ class CategorieActivity : ComponentActivity() {
     }
 }
 
+
+
+/**
+ * la liste des catégories
+ */
+
+@Composable
+fun CategorieList(modifier: Modifier = Modifier){
+    val categories = listOf(
+        "Légumes",
+        "Viande",
+        "Epice et herbes",
+        "Fruits",
+        "Laitiers",
+        "Féculants",
+    )
+    var selectedCategories by remember { mutableStateOf(setOf<String>()) }
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(categories) { categ ->
+            IngredientItem(
+                name = categ,
+                isSelected = selectedCategories.contains(categ),
+                onToggle = {
+                    selectedCategories = if (selectedCategories.contains(categ)) {
+                        selectedCategories - categ
+                    } else {
+                        selectedCategories + categ
+                    }
+                }
+            )
+        }
+    }
+
+    // Bouton confirmer
+    Button(
+        onClick = { /* Action de confirmation */ },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Black,
+            contentColor = Color.White
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+            .height(48.dp),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text(
+            text = "Confirmer",
+            fontSize = 25.sp,
+            fontFamily = FontFamily.Cursive
+        )
+    }
+
+}
+
+
 /**
  * Composable pour le header
  */
 @Composable
-fun Header(name: String, modifier: Modifier = Modifier) {
+fun SimpliChefHeader(name: String, modifier: Modifier = Modifier) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,10 +158,51 @@ fun Header(name: String, modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Composable pour l'affichege des cards pour chaque catégorie
+ */
+@Composable
+fun CategorieCard(name: String, isSelected: Boolean, onToggle: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onToggle),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = name,
+                fontSize = 16.sp
+            )
+
+            Checkbox(
+                checked = isSelected,
+                onCheckedChange = { onToggle() },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color.Black,
+                    uncheckedColor = Color.LightGray
+                )
+            )
+        }
+    }
+}
+
+
+
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview2() {
     SimpliChefTheme {
-        Header("SimpliChef")
+        SimpliChefHeader("SimpliChef")
     }
 }
