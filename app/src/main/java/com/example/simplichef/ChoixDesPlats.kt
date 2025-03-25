@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simplichef.ui.theme.SimpliChefTheme
 
-class DishSelectionScreen : ComponentActivity() {
+class ChoixDesPlats : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,7 +40,7 @@ class DishSelectionScreen : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ChoixPlats()
+                    PageChoixPlats()
                 }
             }
         }
@@ -48,7 +48,7 @@ class DishSelectionScreen : ComponentActivity() {
 }
 
 @Composable
-fun ChoixPlats() {
+fun PageChoixPlats() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -214,6 +214,6 @@ fun ChoixPlats() {
 @Composable
 fun DishSelectionPreview() {
     SimpliChefTheme {
-        ChoixPlats()
+        PageChoixPlats()
     }
 }
