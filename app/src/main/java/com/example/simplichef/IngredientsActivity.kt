@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simplichef.ui.theme.SimpliChefTheme
 
-class ChoixDesIngredients : ComponentActivity() {
+class IngredientsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -287,6 +287,6 @@ fun IngredientItem(
 @Composable
 fun IngredientSelectionPreview() {
     SimpliChefTheme {
-        ChoixDesIngredients()
+        PageChoixIngredients()
     }
 }
