@@ -52,22 +52,32 @@ class IngredientsActivity : ComponentActivity() {
 
 
 @Composable
-fun PageChoixIngredients(ingredients: ArrayList<String>) {
+fun PageChoixIngredients(categorieList:ArrayList<String>) {
     // État pour la recherche
     var searchQuery by remember { mutableStateOf("") }
 
-
+    // Liste d'ingrédients à sélectionner
+    val ingredients = listOf(
+        "Ail",
+        "Artichauts",
+        "Asperge blanche",
+        "Asperge verte",
+        "Aubergine",
+        "Bette",
+        "pommes de terre"
+    )
 
     // État pour les ingrédients sélectionnés
     var selectedIngredients by remember { mutableStateOf(setOf<String>()) }
 
     // Catégories de filtres
-    val categories = listOf(
-        "Légumes" to true,
-        "Viande" to false,
-        "Épices et herbes" to false,
-        "Laitiers" to false
-    )
+    val categories = categorieList.mapIndexed { index, category ->
+        if (index == 0) {
+            category to true
+        } else {
+            category to false
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -279,6 +289,6 @@ fun IngredientItem(
 @Composable
 fun IngredientSelectionPreview() {
     SimpliChefTheme {
-
+        //PageChoixIngredients()
     }
 }
