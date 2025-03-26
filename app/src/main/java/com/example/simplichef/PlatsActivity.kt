@@ -153,7 +153,7 @@ fun PageChoixPlats(activity:ComponentActivity) {
             // Bouton pour afficher les ingrédients
             Button(
                 onClick = { /* Action au clic */
-                    val intent = android.content.Intent(activity, CategorieActivity::class.java)
+                    val intent = android.content.Intent(activity, MyIngredientsActivity::class.java)
                     activity.startActivity(intent)
                 },
                 colors = ButtonDefaults.buttonColors(

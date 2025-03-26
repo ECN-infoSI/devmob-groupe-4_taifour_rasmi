@@ -56,16 +56,8 @@ fun IngredientsPage() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5F0)) // Fond légèrement beige
+            .padding(16.dp) // Ajout de padding pour l'espacement autour
     ) {
-        // Image de fond
-        Image(
-            painter = painterResource(R.drawable.tagliatelle), // Remplace avec l'image de fond souhaitée
-            contentDescription = "Image de fond",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop // Pour que l'image couvre toute la surface
-        )
-
         // Contenu principal
         Column(
             modifier = Modifier
@@ -121,21 +113,17 @@ fun IngredientsPage() {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Choisissez vos ingrédients !",
+                    text = "Mes ingrédients !",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.Serif
                 )
             }
 
-            // Liste des ingrédients
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
-            ) {
-                items(ingredients) { ingredient ->
-                    IngredientItem(ingredient = ingredient)
+            // Affichage de la liste des ingrédients
+            Column(modifier = Modifier.fillMaxWidth()) {
+                ingredients.forEach { ingredient ->
+                    IngredientItem(ingredient)
                 }
             }
         }

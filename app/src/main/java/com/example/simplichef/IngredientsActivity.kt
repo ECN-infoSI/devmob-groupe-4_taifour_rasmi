@@ -43,7 +43,7 @@ class IngredientsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PageChoixIngredients(selectedIngredients)
+                    PageChoixIngredients(selectedIngredients,activity=this@IngredientsActivity)
                 }
             }
         }
@@ -52,7 +52,7 @@ class IngredientsActivity : ComponentActivity() {
 
 
 @Composable
-fun PageChoixIngredients(categorieList:ArrayList<String>) {
+fun PageChoixIngredients(categorieList:ArrayList<String>,activity:ComponentActivity) {
     // État pour la recherche
     var searchQuery by remember { mutableStateOf("") }
 
@@ -201,7 +201,11 @@ fun PageChoixIngredients(categorieList:ArrayList<String>) {
 
             // Bouton confirmer
             Button(
-                onClick = { /* Action de confirmation */ },
+                onClick = {
+                /* Action de confirmation */
+                    val intent = android.content.Intent(activity, PlatsActivity::class.java)
+                    activity.startActivity(intent)
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Black,
                     contentColor = Color.White
@@ -288,7 +292,8 @@ fun IngredientItem(
 @Preview(showBackground = true)
 @Composable
 fun IngredientSelectionPreview() {
+
     SimpliChefTheme {
-        //PageChoixIngredients()
+        //PageChoixIngredients(ingredients,activity = this@IngredientsActivity)
     }
 }
