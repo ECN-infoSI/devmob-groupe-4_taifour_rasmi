@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">SimpliChef</string>
+    <string name="title_activity_ingredients">IngredientsActivity</string>
+    <string name="title_activity_plats">PlatsActivity</string>
     <string name="title_activity_categorie">CategorieActivity</string>
 </resources>
