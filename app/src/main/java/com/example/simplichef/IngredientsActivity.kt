@@ -35,6 +35,7 @@ import com.example.simplichef.ui.theme.SimpliChefTheme
 class IngredientsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val selectedIngredients = intent.getStringArrayListExtra("SELECTED_INGREDIENTS") ?: arrayListOf()
         enableEdgeToEdge()
         setContent {
             SimpliChefTheme {
@@ -42,7 +43,7 @@ class IngredientsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PageChoixIngredients()
+                    PageChoixIngredients(selectedIngredients)
                 }
             }
         }
@@ -51,20 +52,11 @@ class IngredientsActivity : ComponentActivity() {
 
 
 @Composable
-fun PageChoixIngredients() {
+fun PageChoixIngredients(ingredients: ArrayList<String>) {
     // État pour la recherche
     var searchQuery by remember { mutableStateOf("") }
 
-    // Liste d'ingrédients à sélectionner
-    val ingredients = listOf(
-        "Ail",
-        "Artichauts",
-        "Asperge blanche",
-        "Asperge verte",
-        "Aubergine",
-        "Bette",
-        "pommes de terre"
-    )
+
 
     // État pour les ingrédients sélectionnés
     var selectedIngredients by remember { mutableStateOf(setOf<String>()) }
@@ -287,6 +279,6 @@ fun IngredientItem(
 @Composable
 fun IngredientSelectionPreview() {
     SimpliChefTheme {
-        PageChoixIngredients()
+
     }
 }

@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingImage(message = "Cuisinons ensemble", modifier = Modifier.padding(8.dp))
+                    GreetingImage(message = "Cuisinons ensemble", modifier = Modifier.padding(8.dp),activity = this@MainActivity)
                 }
             }
         }
@@ -65,11 +65,11 @@ fun GreetingText(message: String, modifier: Modifier = Modifier) {
  * Composable pour le button
  */
 @Composable
-fun StartingButton(textButton: String, modifier: Modifier = Modifier) {
+fun StartingButton(textButton: String, modifier: Modifier = Modifier,activity: ComponentActivity) {
     Button(
         onClick = {
-            /*val context = LocalContext.current
-            context.startActivity(Intent(context, CategorieActivity::class.java))*/
+            val intent = android.content.Intent(activity, CategorieActivity::class.java)
+            activity.startActivity(intent)
         },
         modifier = modifier
             .padding(16.dp)
@@ -90,7 +90,7 @@ fun StartingButton(textButton: String, modifier: Modifier = Modifier) {
  * Composable pour l'affichage toute la page avec le back, le message et le button
  */
 @Composable
-fun GreetingImage(message: String, modifier: Modifier = Modifier) {
+fun GreetingImage(message: String, modifier: Modifier = Modifier,activity: ComponentActivity) {
     val image = painterResource(R.drawable.tagliatelle1)
 
     Box(modifier) {
@@ -111,7 +111,7 @@ fun GreetingImage(message: String, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxSize()
             )
-            StartingButton("Allons-y!")
+            StartingButton("Allons-y!",modifier,activity)
         }
     }
 
@@ -121,8 +121,6 @@ fun GreetingImage(message: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     SimpliChefTheme {
-        GreetingImage(
-            message = "Cuisinons ensemble !",
-        )
+
     }
 }

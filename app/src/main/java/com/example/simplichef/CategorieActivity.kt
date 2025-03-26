@@ -1,5 +1,6 @@
 package com.example.simplichef
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,17 +54,22 @@ class CategorieActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SimpliChefTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SimpliChefHeader(
-                        name = "SimpliChef",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = { SimpliChefHeader(name = "SimpliChef") }
+                ) { innerPadding ->
+                    Column(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .padding(16.dp)
+                            .fillMaxSize()
+                    ) {
+                        CategorieList(activity = this@CategorieActivity)
+                    }
             }
         }
     }
 }
-
 
 
 /**
@@ -70,7 +77,7 @@ class CategorieActivity : ComponentActivity() {
  */
 
 @Composable
-fun CategorieList(modifier: Modifier = Modifier){
+fun CategorieList(activity: ComponentActivity){
     val categories = listOf(
         "Légumes",
         "Viande",
@@ -102,7 +109,11 @@ fun CategorieList(modifier: Modifier = Modifier){
 
     // Bouton confirmer
     Button(
-        onClick = { /* Action de confirmation */ },
+        onClick = { /* Action de confirmation */
+            val intent = Intent(activity, IngredientsActivity::class.java)
+            intent.putStringArrayListExtra("SELECTED_INGREDIENTS", ArrayList(selectedCategories))
+            activity.startActivity(intent)
+        },
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Black,
             contentColor = Color.White
@@ -127,7 +138,7 @@ fun CategorieList(modifier: Modifier = Modifier){
  * Composable pour le header
  */
 @Composable
-fun SimpliChefHeader(name: String, modifier: Modifier = Modifier) {
+fun SimpliChefHeader(name: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -203,6 +214,14 @@ fun CategorieCard(name: String, isSelected: Boolean, onToggle: () -> Unit) {
 @Composable
 fun GreetingPreview2() {
     SimpliChefTheme {
-        SimpliChefHeader("SimpliChef")
+        Scaffold(
+            topBar = { SimpliChefHeader(name = "SimpliChef") }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier.padding(innerPadding).padding(16.dp)
+            ) {
+                CategorieList(activity = this@CategorieActivity)
+            }
+        }
     }
-}
+}}
