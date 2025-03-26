@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpliChef"
         tools:targetApi="31">
-
+        <activity
+            android:name=".MyIngredientsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_my_ingredients"
+            android:theme="@style/Theme.SimpliChef" />
         <activity
             android:name=".PlatsActivity"
             android:exported="false"

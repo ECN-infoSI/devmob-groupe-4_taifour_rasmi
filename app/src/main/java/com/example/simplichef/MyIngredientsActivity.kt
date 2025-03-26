@@ -1,6 +1,5 @@
 package com.example.simplichef
 
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,11 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.simplichef.ui.theme.SimpliChefTheme
 
-class PlatsActivity : ComponentActivity() {
+class MyIngredientsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,7 +40,7 @@ class PlatsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PageChoixPlats(activity = this@PlatsActivity)
+                    IngredientsPage()
                 }
             }
         }
@@ -48,12 +48,24 @@ class PlatsActivity : ComponentActivity() {
 }
 
 @Composable
-fun PageChoixPlats(activity:ComponentActivity) {
+fun IngredientsPage() {
+    val ingredients = listOf(
+        "Tomates", "Poulet", "Oignons", "Ail", "Poivrons", "Coriandre", "Citron"
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF5F5F0)) // Fond légèrement beige
     ) {
+        // Image de fond
+        Image(
+            painter = painterResource(R.drawable.tagliatelle), // Remplace avec l'image de fond souhaitée
+            contentDescription = "Image de fond",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop // Pour que l'image couvre toute la surface
+        )
+
         // Contenu principal
         Column(
             modifier = Modifier
@@ -109,114 +121,65 @@ fun PageChoixPlats(activity:ComponentActivity) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Choisissez votre plat !",
+                    text = "Choisissez vos ingrédients !",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.Serif
                 )
             }
 
-            // Card avec l'image du plat
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    // Image du plat
-                    Image(
-                        painter = painterResource(R.drawable.plat),
-                        contentDescription = "Poulet rôti avec légumes",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(350.dp),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    // Nom du plat
-                    Text(
-                        text = "Poulet rôti accompagné de légumes",
-                        modifier = Modifier.padding(16.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-
-            // Bouton pour afficher les ingrédients
-            Button(
-                onClick = { /* Action au clic */
-                    val intent = android.content.Intent(activity, CategorieActivity::class.java)
-                    activity.startActivity(intent)
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFB800) // Jaune
-                ),
+            // Liste des ingrédients
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 16.dp)
-                    .height(48.dp),
-                shape = RoundedCornerShape(8.dp)
             ) {
-                Text(
-                    text = "Afficher mes ingrédients",
-                    fontSize = 16.sp,
-                    color = Color.White
-                )
-            }
-
-            // Boutons d'action Like/Dislike
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                // Bouton Dislike (croix)
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .background(Color.Red, CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "Je n'aime pas",
-                        tint = Color.White,
-                        modifier = Modifier.size(32.dp)
-                    )
-                }
-
-                // Bouton Like (coeur)
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .background(Color(0xFF4CAF50), CircleShape), // Vert
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = "J'aime",
-                        tint = Color.White,
-                        modifier = Modifier.size(32.dp)
-                    )
+                items(ingredients) { ingredient ->
+                    IngredientItem(ingredient = ingredient)
                 }
             }
         }
     }
 }
 
+@Composable
+fun IngredientItem(ingredient: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = ingredient,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal
+            )
+
+            Icon(
+                imageVector = Icons.Filled.Favorite,
+                contentDescription = "Favori",
+                tint = Color(0xFF4CAF50), // Vert
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun DishSelectionPreview() {
+fun IngredientsPagePreview() {
     SimpliChefTheme {
-       // PageChoixPlats()
+        IngredientsPage()
     }
 }
